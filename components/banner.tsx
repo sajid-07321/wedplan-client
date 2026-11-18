@@ -18,7 +18,7 @@ export function Banner() {
         sizes="100vw"
         className="object-cover opacity-40"
       />
-      <div className="absolute inset-0 bg-gradient-to-r from-[#241413] via-[#241413]/85 to-[#241413]/40" />
+      <div className="absolute inset-0 bg-gradient-to-r from-[#333232] via-[#241413]/85 to-[#241413]/40" />
 
       <div className="relative mx-auto grid max-w-7xl gap-14 px-4 py-16 sm:px-6 lg:grid-cols-[1.15fr_0.85fr] lg:items-center lg:py-24">
         <div>
@@ -42,7 +42,7 @@ export function Banner() {
           <div className="mt-8 flex flex-wrap gap-3">
             <Link
               href="/services"
-              className="inline-flex h-11 items-center gap-2 rounded-full bg-[#f2c94c] px-6 text-sm font-semibold text-[#2b1414] transition-colors hover:bg-[#f7d76f]"
+              className="inline-flex h-11 items-center gap-2 rounded-full bg-[rgba(177,44,44,0.76)] px-6 text-sm font-semibold text-white transition-colors hover:bg-[#55534d]"
             >
               <Search className="size-4" />
               Explore Wedding Services
