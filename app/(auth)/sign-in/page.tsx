@@ -3,7 +3,7 @@
 
 import { useState } from "react"
 import Link from "next/link"
-import { Navbar } from "@/components/navbar"
+
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -91,7 +91,7 @@ export default function SignInPage() {
 
   return (
     <>
-      <Navbar />
+   
 
       <main className="relative min-h-[calc(100vh_-_4rem)] overflow-hidden bg-[#333232] px-4 py-12">
 

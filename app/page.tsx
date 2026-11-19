@@ -1,11 +1,15 @@
 import { Banner } from "@/components/banner"
-import { Navbar } from "@/components/navbar"
+import { LoveNotes } from "@/components/love-notes"
+import { WhyChoose } from "@/components/why-choose"
 
 export default function Page() {
   return (
     <>
-      <Navbar />
+      
       <Banner />
+      <WhyChoose />
+      <LoveNotes />
+     
     </>
   )
 }
