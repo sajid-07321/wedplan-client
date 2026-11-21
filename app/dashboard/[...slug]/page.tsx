@@ -32,10 +32,10 @@ export default async function DashboardSectionPage({
 
   return (
     <div className="space-y-4 p-6">
-      <h1 className="font-serif text-2xl font-bold text-[#2b1414]">
+      <h1 className="font-serif text-2xl font-bold text-[#f7f0e8]">
         {section}
       </h1>
-      <p className="max-w-xl text-sm leading-relaxed text-[#6b625d]">
+      <p className="max-w-xl text-sm leading-relaxed text-[#9c8a80]">
         This section is coming soon — we&apos;re still building out the {role}{" "}
         dashboard. Check back soon.
       </p>

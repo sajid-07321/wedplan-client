@@ -25,6 +25,7 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
 import type { Role } from "@/lib/session"
+import { findActiveItem } from "@/lib/utils"
 
 type MenuItem = {
   id: string
@@ -146,9 +147,12 @@ const menuItemsByRole: Record<Role, MenuItem[]> = {
 
 export function DashboardSidebar({ role }: { role: Role }) {
   const pathname = usePathname()
+  const activeItem = findActiveItem(pathname, menuItemsByRole[role])
 
   return (
-    <Sidebar>
+    // The marketing navbar sits above the dashboard (112px = py-6 + h-16), so
+    // the fixed sidebar is pushed down to clear it instead of running underneath.
+    <Sidebar className="top-28! h-[calc(100svh-7rem)]!">
       <SidebarHeader>
         <span className="px-2 text-sm font-semibold tracking-[0.2em] text-[#f7f0e8] uppercase">
           WedPlan
@@ -161,7 +165,8 @@ export function DashboardSidebar({ role }: { role: Role }) {
               <SidebarMenuItem key={item.id}>
                 <SidebarMenuButton
                   render={<Link href={item.url} />}
-                  isActive={pathname === item.url}
+                  isActive={activeItem?.id === item.id}
+                  className="data-active:bg-[#8e2333] data-active:text-white"
                 >
                   <item.icon />
                   <span>{item.name}</span>

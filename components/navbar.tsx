@@ -14,13 +14,16 @@ export function Navbar() {
   const { data: session, isPending } = useSession()
   const pathname = usePathname()
 
-  // Dashboard pages have their own header
-  if (pathname.startsWith("/dashboard")) {
-    return null
-  }
+  // Go straight to the visitor's own portal — one round trip instead of
+  // hitting /dashboard and bouncing through a redirect.
+  const role = session?.user.role
+  const dashboardHref =
+    role === "customer" || role === "vendor" || role === "admin"
+      ? `/dashboard/${role}`
+      : "/dashboard"
 
   const navLinks = session?.user
-    ? [...publicLinks, { label: "Dashboard", href: "/dashboard" }]
+    ? [...publicLinks, { label: "Dashboard", href: dashboardHref }]
     : [...publicLinks, { label: "Browse Services", href: "/services" }]
 
   return (
