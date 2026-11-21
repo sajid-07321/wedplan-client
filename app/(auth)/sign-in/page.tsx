@@ -1,4 +1,3 @@
-
 "use client"
 
 import { useState } from "react"
@@ -9,13 +8,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { LogoMark } from "@/components/logo-mark"
 import { cn } from "@/lib/utils"
-import {
-  ArrowRight,
-  Eye,
-  EyeOff,
-  Lock,
-  Mail,
-} from "lucide-react"
+import { ArrowRight, Eye, EyeOff, Lock, Mail } from "lucide-react"
 
 import { authClient } from "@/lib/auth-client"
 import { useRouter } from "next/navigation"
@@ -26,10 +19,22 @@ const fieldInputClass =
 function GoogleIcon() {
   return (
     <svg viewBox="0 0 24 24" className="size-4.5" aria-hidden="true">
-      <path fill="#4285F4" d="M23.49 12.27c0-.79-.07-1.54-.2-2.27H12v4.51h6.47c-.28 1.5-1.12 2.77-2.39 3.62v3.02h3.86c2.26-2.09 3.55-5.17 3.55-8.86z"/>
-      <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.94-2.91l-3.86-3.02c-1.08.72-2.45 1.15-4.08 1.15-3.13 0-5.78-2.11-6.73-4.96H1.29v3.11C3.27 21.3 7.31 24 12 24z"/>
-      <path fill="#FBBC05" d="M5.27 14.26c-.25-.72-.38-1.49-.38-2.26s.14-1.54.38-2.26V6.63H1.29C.47 8.24 0 10.06 0 12s.47 3.76 1.29 5.37l3.98-3.11z"/>
-      <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.31 0 3.27 2.7 1.29 6.63l3.98 3.11C6.22 6.86 8.87 4.75 12 4.75z"/>
+      <path
+        fill="#4285F4"
+        d="M23.49 12.27c0-.79-.07-1.54-.2-2.27H12v4.51h6.47c-.28 1.5-1.12 2.77-2.39 3.62v3.02h3.86c2.26-2.09 3.55-5.17 3.55-8.86z"
+      />
+      <path
+        fill="#34A853"
+        d="M12 24c3.24 0 5.95-1.08 7.94-2.91l-3.86-3.02c-1.08.72-2.45 1.15-4.08 1.15-3.13 0-5.78-2.11-6.73-4.96H1.29v3.11C3.27 21.3 7.31 24 12 24z"
+      />
+      <path
+        fill="#FBBC05"
+        d="M5.27 14.26c-.25-.72-.38-1.49-.38-2.26s.14-1.54.38-2.26V6.63H1.29C.47 8.24 0 10.06 0 12s.47 3.76 1.29 5.37l3.98-3.11z"
+      />
+      <path
+        fill="#EA4335"
+        d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.31 0 3.27 2.7 1.29 6.63l3.98 3.11C6.22 6.86 8.87 4.75 12 4.75z"
+      />
     </svg>
   )
 }
@@ -61,7 +66,7 @@ export default function SignInPage() {
       const { error } = await authClient.signIn.email({
         email,
         password,
-        callbackURL: "/",
+        callbackURL: "/dashboard",
       })
 
       if (error) {
@@ -69,7 +74,8 @@ export default function SignInPage() {
         return
       }
 
-      router.push("/")
+      // "/dashboard" redirects to the portal matching the user's role.
+      router.push("/dashboard")
       router.refresh()
     } catch {
       setErrorMessage("Something went wrong. Please try again.")
@@ -81,7 +87,7 @@ export default function SignInPage() {
   async function handleGoogleSignIn() {
     const { error } = await authClient.signIn.social({
       provider: "google",
-      callbackURL: "/",
+      callbackURL: "/dashboard",
     })
 
     if (error) {
@@ -91,10 +97,7 @@ export default function SignInPage() {
 
   return (
     <>
-   
-
       <main className="relative min-h-[calc(100vh_-_4rem)] overflow-hidden bg-[#333232] px-4 py-12">
-
         {/* Background */}
         <div
           aria-hidden="true"
@@ -106,9 +109,7 @@ export default function SignInPage() {
         />
 
         <div className="relative flex min-h-[calc(100vh_-_14rem)] items-center justify-center">
-
           <div className="relative w-full max-w-[480px] overflow-hidden rounded-2xl border border-white/10 bg-white shadow-[0_1px_2px_rgba(0,0,0,0.3),0_20px_48px_-12px_rgba(0,0,0,0.55),0_48px_100px_-48px_rgba(142,35,51,0.55)]">
-
             {/* Accent */}
             <div
               aria-hidden="true"
@@ -125,8 +126,8 @@ export default function SignInPage() {
                 </h1>
 
                 <p className="mt-2 max-w-sm text-sm leading-relaxed text-[#6b625d]">
-                  Sign in to explore service details, manage bookings,
-                  or grow your wedding studio.
+                  Sign in to explore service details, manage bookings, or grow
+                  your wedding studio.
                 </p>
               </div>
             </div>
@@ -187,7 +188,9 @@ export default function SignInPage() {
 
                   <button
                     type="button"
-                    aria-label={showPassword ? "Hide password" : "Show password"}
+                    aria-label={
+                      showPassword ? "Hide password" : "Show password"
+                    }
                     onClick={() => setShowPassword((v) => !v)}
                     className="absolute top-1/2 right-3 -translate-y-1/2 text-[#a9a09a] transition-colors hover:text-[#2b1414]"
                   >
@@ -261,7 +264,6 @@ export default function SignInPage() {
                 Create Account
               </Link>
             </div>
-
           </div>
         </div>
       </main>

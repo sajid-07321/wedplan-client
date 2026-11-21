@@ -1,3 +1,6 @@
+"use client"
+
+import { useSession } from "@/lib/auth-client"
 import Image from "next/image"
 import Link from "next/link"
 import { Search, ShieldCheck, Sparkles } from "lucide-react"
@@ -9,6 +12,8 @@ const stats = [
 ]
 
 export function Banner() {
+  const { data: session, isPending } = useSession()
+  const isLoggedIn = !!session?.user
   return (
     <section className="relative overflow-hidden bg-[#241413]">
       <Image
@@ -40,6 +45,7 @@ export function Banner() {
           </p>
 
           <div className="mt-8 flex flex-wrap gap-3">
+            {/* Explore Button */}
             <Link
               href="/services"
               className="inline-flex h-11 items-center gap-2 rounded-full bg-[rgba(177,44,44,0.76)] px-6 text-sm font-semibold text-white transition-colors hover:bg-[#55534d]"
@@ -47,12 +53,16 @@ export function Banner() {
               <Search className="size-4" />
               Explore Wedding Services
             </Link>
-            <Link
-              href="/vendor-hub"
-              className="inline-flex h-11 items-center rounded-full border border-white/25 px-6 text-sm font-medium text-white transition-colors hover:bg-white/10"
-            >
-              Join as a Vendor
-            </Link>
+
+            {/* Join Button - Only for logged out users */}
+            {!isPending && !isLoggedIn && (
+              <Link
+                href="/sign-up"
+                className="inline-flex h-11 items-center rounded-full border border-white/25 px-8 text-sm font-medium text-white transition-colors hover:bg-white/10"
+              >
+                Join
+              </Link>
+            )}
           </div>
 
           <div className="mt-10 grid max-w-lg grid-cols-3 gap-6 border-t border-white/10 pt-6">

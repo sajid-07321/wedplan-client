@@ -1,4 +1,7 @@
+"use client"
+
 import Link from "next/link"
+import { usePathname } from "next/navigation"
 import { Mail, MapPin, Phone } from "lucide-react"
 
 import { LogoMark } from "@/components/logo-mark"
@@ -32,6 +35,11 @@ const contacts = [
 const socials = ["Instagram", "Pinterest", "Facebook"]
 
 export function Footer() {
+  const pathname = usePathname()
+
+  // The dashboard renders its own layout without the marketing footer.
+  if (pathname.startsWith("/dashboard")) return null
+
   return (
     <footer className="bg-gradient-to-b from-[#c5c3c0] to-[#f1ece5]">
       <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6">

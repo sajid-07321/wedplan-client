@@ -5,11 +5,9 @@ import { WhyChoose } from "@/components/why-choose"
 export default function Page() {
   return (
     <>
-      
       <Banner />
       <WhyChoose />
       <LoveNotes />
-     
     </>
   )
 }

@@ -1,4 +1,3 @@
-
 "use client"
 
 import Image from "next/image"
@@ -95,13 +94,7 @@ function passwordScore(value: string) {
 
 const strengthLabels = ["Too weak", "Weak", "Fair", "Good", "Strong"]
 
-const strengthColors = [
-  "#d64545",
-  "#d64545",
-  "#e9a13b",
-  "#4c9a5f",
-  "#4c9a5f",
-]
+const strengthColors = ["#d64545", "#d64545", "#e9a13b", "#4c9a5f", "#4c9a5f"]
 
 export default function SignUpPage() {
   const router = useRouter()
@@ -168,12 +161,13 @@ export default function SignUpPage() {
     const businessName = formData.get("businessName") as string | null
 
     try {
-      const { data, error } = await authClient.signUp.email({
+      const { error } = await authClient.signUp.email({
         name,
         email,
         password,
         role,
-        callbackURL: "/",
+        ...(businessName ? { businessName } : {}),
+        callbackURL: "/dashboard?welcome=1",
       })
 
       if (error) {
@@ -181,21 +175,24 @@ export default function SignUpPage() {
         return
       }
 
-      console.log("Signup successful:", data)
-
-      router.push("/")
-
+      router.push("/dashboard?welcome=1")
     } catch (error) {
       console.error("Signup error:", error)
       setErrorMessage("Something went wrong. Please try again.")
     } finally {
       setIsLoading(false)
     }
+  }
 
-    // Role and businessName are collected above.
-    // They need Better Auth additionalFields configuration
-    // before they can be saved to the user record.
-    console.log({ role, businessName })
+  async function handleGoogleSignUp() {
+    const { error } = await authClient.signIn.social({
+      provider: "google",
+      callbackURL: "/dashboard?welcome=1",
+    })
+
+    if (error) {
+      setErrorMessage(error.message || "Google sign up failed.")
+    }
   }
 
   const score = passwordScore(password)
@@ -205,7 +202,6 @@ export default function SignUpPage() {
     <>
       {/* Main Page */}
       <div className="relative min-h-screen overflow-hidden bg-[#333232] px-4 py-12">
-
         {/* Background */}
         <div
           aria-hidden="true"
@@ -223,9 +219,7 @@ export default function SignUpPage() {
 
         {/* Signup Card */}
         <div className="relative flex min-h-[calc(100vh_-_8rem)] items-center justify-center">
-
           <div className="relative w-full max-w-[480px] overflow-hidden rounded-2xl border border-white/10 bg-white shadow-[0_1px_2px_rgba(0,0,0,0.3),0_20px_48px_-12px_rgba(0,0,0,0.55),0_48px_100px_-48px_rgba(142,35,51,0.55)]">
-
             {/* Accent bar */}
             <div
               aria-hidden="true"
@@ -249,16 +243,10 @@ export default function SignUpPage() {
             </div>
 
             {/* Signup Form */}
-            <form
-              className="space-y-5 px-8 pb-7"
-              onSubmit={handleSignUp}
-            >
-
+            <form className="space-y-5 px-8 pb-7" onSubmit={handleSignUp}>
               {/* Account Role */}
               <div className="space-y-2.5">
-                <Label className="text-[#2b1414]">
-                  Account Role
-                </Label>
+                <Label className="text-[#2b1414]">Account Role</Label>
 
                 <div className="grid grid-cols-2 gap-3">
                   {roles.map((r) => {
@@ -312,9 +300,7 @@ export default function SignUpPage() {
 
               {/* Profile Photo */}
               <div className="flex items-center gap-4 rounded-xl border border-dashed border-[#ddd8d4] bg-[#fcfbfa] p-4">
-
                 <span className="relative flex size-12 shrink-0 items-center justify-center overflow-hidden rounded-full bg-[#f8eaec] text-sm font-semibold text-[#8e2333]">
-
                   {avatarPreview ? (
                     <Image
                       src={avatarPreview}
@@ -326,7 +312,6 @@ export default function SignUpPage() {
                   ) : (
                     "WP"
                   )}
-
                 </span>
 
                 <div className="min-w-0">
@@ -341,7 +326,6 @@ export default function SignUpPage() {
                   >
                     <ImageIcon className="size-4" />
                     Upload Profile Photo (Optional)
-
                     <input
                       type="file"
                       accept="image/png,image/jpeg,image/webp"
@@ -445,7 +429,9 @@ export default function SignUpPage() {
 
                   <button
                     type="button"
-                    aria-label={showPassword ? "Hide password" : "Show password"}
+                    aria-label={
+                      showPassword ? "Hide password" : "Show password"
+                    }
                     onClick={() => setShowPassword((v) => !v)}
                     className="absolute top-1/2 right-3 -translate-y-1/2 text-[#a9a09a] transition-colors hover:text-[#2b1414]"
                   >
@@ -554,19 +540,17 @@ export default function SignUpPage() {
               <Button
                 type="button"
                 variant="outline"
+                onClick={handleGoogleSignUp}
                 className="h-11 w-full gap-2.5 rounded-lg border-[#e4e2df] bg-white text-sm font-medium text-[#2b1414] hover:bg-[#f7f6f4] hover:text-[#2b1414]"
               >
                 <GoogleIcon />
-                Sign up with Google (
-                {role === "customer" ? "Customer" : "Vendor"})
+                Sign up with Google
               </Button>
-
             </form>
 
             {/* Footer */}
             <div className="border-t border-[#f0eeeb] bg-[#fbf9f8] px-8 py-4 text-center text-sm text-[#6b625d]">
               Already have an account?{" "}
-
               <Link
                 href="/sign-in"
                 className="font-semibold text-[#8e2333] underline-offset-2 hover:underline"
@@ -574,7 +558,6 @@ export default function SignUpPage() {
                 Sign in
               </Link>
             </div>
-
           </div>
         </div>
       </div>
